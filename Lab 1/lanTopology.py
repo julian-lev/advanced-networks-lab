@@ -61,9 +61,10 @@ def firstNetwork():
     'Ctrl Shift <Key>C: copy-selection(CLIPBOARD)\\n'
     'Ctrl Shift <Key>V: insert-selection(CLIPBOARD)\\n'
     'Shift <Key>Insert: insert-selection(CLIPBOARD)" '
-    '-T PC2 &'
     'ip addr add 10.10.20.2/24 dev PC2-eth0'
     'ip -6 addr add fd24:ec43:12ca:c001:20::2/80 dev PC2-eth0'
+    '-T PC2 &'
+
 )
     PC3.cmd(
     'xterm '
