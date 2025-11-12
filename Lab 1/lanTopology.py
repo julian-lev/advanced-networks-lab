@@ -40,6 +40,9 @@ def firstNetwork():
     info( '*** Starting network\n')
     net.start()
 
+    PC2.cmd('ip addr add 10.10.20.2/24 dev PC2-eth0')
+    PC2.cmd('ip -6 addr add fd24:ec43:12ca:c001:20::2/80 dev PC2-eth0')
+
     "This is used to run commands on the hosts"
 
     info( '*** Starting terminals on hosts\n' )
@@ -61,8 +64,6 @@ def firstNetwork():
     'Ctrl Shift <Key>C: copy-selection(CLIPBOARD)\\n'
     'Ctrl Shift <Key>V: insert-selection(CLIPBOARD)\\n'
     'Shift <Key>Insert: insert-selection(CLIPBOARD)" '
-    'ip addr add 10.10.20.2/24 dev PC2-eth0'
-    'ip -6 addr add fd24:ec43:12ca:c001:20::2/80 dev PC2-eth0'
     '-T PC2 &'
 
 )
