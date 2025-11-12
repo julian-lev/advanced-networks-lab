@@ -24,29 +24,30 @@ def main():
     certificate = args.certificate
     key = args.key
 
-    hostname = 'localhost'
+    hostname = '127.0.0.1'
 
     # Create the ssl context
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(certificate, key)
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as sock:
-        sock.bind(('127.0.0.1', port))
+        sock.bind((hostname, port))
         sock.listen(5)
 
         while True:
-            with context.wrap_socket(sock, server_side=True) as ssock:
-                conn, addr = ssock.accept()
-                data = conn.recv(11)
+
+            conn, addr = sock.accept()
+            with context.wrap_socket(conn, server_side=True) as ssock:
+                data = ssock.recv(11)
                 if data.decode() == "CMD_short:0":
-                    conn.sendall("This is PMU data 0".encode())
-                    conn.sendall("This is PMU data 1".encode())
-                    conn.sendall("This is PMU data 2".encode())
-                    conn.sendall("This is PMU data 3".encode())
-                    conn.close()
+                    ssock.sendall("This is PMU data 0".encode())
+                    ssock.sendall("This is PMU data 1".encode())
+                    ssock.sendall("This is PMU data 2".encode())
+                    ssock.sendall("This is PMU data 3".encode())
+                    ssock.close()
 
                 else:
-                    conn.close()
+                    ssock.close()
             
 
 if __name__ == '__main__':
