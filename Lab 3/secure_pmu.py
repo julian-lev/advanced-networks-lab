@@ -34,20 +34,20 @@ def main():
         sock.bind((hostname, port))
         sock.listen(5)
 
-        while True:
+        with context.wrap_socket(conn, server_side=True) as ssock:
+            while True:
+                    conn, addr = ssock.accept()
+                
+                    data = conn.recv(11)
+                    if data.decode() == "CMD_short:0":
+                        conn.sendall("This is PMU data 0".encode())
+                        conn.sendall("This is PMU data 1".encode())
+                        conn.sendall("This is PMU data 2".encode())
+                        conn.sendall("This is PMU data 3".encode())
+                        conn.close()
 
-            conn, addr = sock.accept()
-            with context.wrap_socket(conn, server_side=True) as ssock:
-                data = ssock.recv(11)
-                if data.decode() == "CMD_short:0":
-                    ssock.sendall("This is PMU data 0".encode())
-                    ssock.sendall("This is PMU data 1".encode())
-                    ssock.sendall("This is PMU data 2".encode())
-                    ssock.sendall("This is PMU data 3".encode())
-                    ssock.close()
-
-                else:
-                    ssock.close()
+                    else:
+                        conn.close()
             
 
 if __name__ == '__main__':
